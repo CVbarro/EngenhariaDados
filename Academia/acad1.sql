@@ -43,7 +43,7 @@ ENGINE = InnoDB;
 -- Table `mydb`.`Cliente`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Cliente` (
-  `Nome` VARCHAR(5) NOT NULL,
+  `Nome` VARCHAR(15) NOT NULL,
   `cpf` VARCHAR(11) NOT NULL,
   `matricula` VARCHAR(5) NULL,
   `idade` INT NULL,

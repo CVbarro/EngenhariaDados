@@ -29,4 +29,6 @@ public class AcessoDao {
             System.out.println("Erro ao adicionar acesso: " + e.getMessage());
         }
     }
+
+  
 }
