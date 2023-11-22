@@ -2,5 +2,20 @@
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
         "c:\\Users\\delta\\Desktop\\mysql-connector-j-8.2.0.jar"
+    ],
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "127.0.0.1",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "test1",
+            "database": "mydb",
+            "username": "root"
+        }
     ]
 }
