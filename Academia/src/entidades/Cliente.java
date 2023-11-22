@@ -1,7 +1,8 @@
 package entidades;
 
 public class Cliente {
-    private String nome, cpf, cnpj, email, data_nascimento;
+    private String nome, cpf, cnpj, email;
+    private String data_nascimento;
     private int matricula;
     private Pagamento pagamento;
     private Acesso acesso;
@@ -84,5 +85,21 @@ public class Cliente {
         } else {
             System.out.println("Cliente não realizou pagamento.");
         }
+    }
+
+    public Pagamento getPagamento() {
+        return pagamento;
+    }
+
+    public void setPagamento(Pagamento pagamento) {
+        this.pagamento = pagamento;
+    }
+
+    public Acesso getAcesso() {
+        return acesso;
+    }
+
+    public void setAcesso(Acesso acesso) {
+        this.acesso = acesso;
     }
 }

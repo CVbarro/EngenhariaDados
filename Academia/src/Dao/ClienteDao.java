@@ -23,10 +23,46 @@ public class ClienteDao {
             preparedStatement.setString(5, cliente.getData_nascimento());
             preparedStatement.setInt(6, cliente.getMatricula());
 
-            preparedStatement.executeUpdate();
+            preparedStatement.execute();
+            try (ResultSet rst = preparedStatement.getGeneratedKeys()) {
+                while (rst.next()) {
+                    cliente.setMatricula(rst.getInt(6));
+                }
+            }
             System.out.println("Cliente cadastrado com sucesso!");
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+
+    }
+
+    public ArrayList<Cliente> clienteCadastro() {
+
+        ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+
+        try {
+            String sql = "SELECT matricula, nome, cpf, cnpj, email, data_nascimento, idade FROM cliente";
+
+            try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+                pstm.execute();
+                ResultSet rst = pstm.getResultSet();
+                while (rst.next()) {
+                    int matricula = rst.getInt("matricula");
+                    String nome = rst.getString("nome");
+                    String cpf = rst.getString("cpf");
+                    String data = rst.getString("data");
+                    String cnpj = rst.getString("cnpj");
+                    String email = rst.getString("email");
+                    Cliente c = new Cliente(nome, cpf, cnpj, email, data, matricula);
+
+                    clientes.add(c);
+
+                }
+            }
+            return clientes;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

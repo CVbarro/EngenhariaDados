@@ -9,7 +9,7 @@ public class Conexao {
     public Connection recuperaConexao() {
         try {
             String sgbd = "mysql";
-            String endereco = "localhost";
+            String endereco = "127.0.0.1";
             String bd = "mydb";
             String usuario = "root";
             String senha = "mysqlroot";
@@ -22,6 +22,10 @@ public class Conexao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Connection getConnection() {
+        return null;
     }
 
 }

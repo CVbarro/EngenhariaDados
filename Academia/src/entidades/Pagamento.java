@@ -1,9 +1,10 @@
 package entidades;
 
 public class Pagamento {
-    private String idPagamento, dataPagamento;
+    private String idPagamento;
+    private String dataPagamento;
 
-    public Pagamento(String idPagamento, String dataPagamento){
+    public Pagamento(String idPagamento, String dataPagamento) {
         this.dataPagamento = dataPagamento;
         this.idPagamento = idPagamento;
 
@@ -12,6 +13,7 @@ public class Pagamento {
     public String getDataPagamento() {
         return dataPagamento;
     }
+
     public String getIdPagamento() {
         return idPagamento;
     }
@@ -19,6 +21,7 @@ public class Pagamento {
     public void setDataPagamento(String dataPagamento) {
         this.dataPagamento = dataPagamento;
     }
+
     public void setIdPagamento(String idPagamento) {
         this.idPagamento = idPagamento;
     }
