@@ -1,68 +1,53 @@
 package Dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import entidades.*;
 
-import java.sql.*;
-import java.util.ArrayList;
-
 public class ClienteDao {
-    private Connection connection;
 
-    public ClienteDao(Connection connection) {
-        this.connection = connection;
-    }
+    public void adicionarCliente(Cliente cliente) {
+        Conexao conexao = new Conexao(); // Instância da classe Conexao
 
-    public void realizarCadastro(Cliente cliente) {
-        String sql = "INSERT INTO cliente (nome, cpf, cnpj, email, data_nascimento, matricula) VALUES (?, ?, ?, ?, ?, ?)";
-
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, cliente.getNome());
-            preparedStatement.setString(2, cliente.getCpf());
-            preparedStatement.setString(3, cliente.getCnpj());
-            preparedStatement.setString(4, cliente.getEmail());
-            preparedStatement.setString(5, cliente.getData_nascimento());
-            preparedStatement.setInt(6, cliente.getMatricula());
-
-            preparedStatement.execute();
-            try (ResultSet rst = preparedStatement.getGeneratedKeys()) {
-                while (rst.next()) {
-                    cliente.setMatricula(rst.getInt(6));
-                }
-            }
-            System.out.println("Cliente cadastrado com sucesso!");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    public ArrayList<Cliente> clienteCadastro() {
-
-        ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+        String sql = "INSERT INTO Cliente (nome, cpf, matricula, idade, Acesso_matricula, Intrutor_cpf) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
-            String sql = "SELECT matricula, nome, cpf, cnpj, email, data_nascimento, idade FROM cliente";
+            Connection connection = conexao.recuperaConexao(); // Obtendo a conexão com o banco de dados
 
-            try (PreparedStatement pstm = connection.prepareStatement(sql)) {
-                pstm.execute();
-                ResultSet rst = pstm.getResultSet();
-                while (rst.next()) {
-                    int matricula = rst.getInt("matricula");
-                    String nome = rst.getString("nome");
-                    String cpf = rst.getString("cpf");
-                    String data = rst.getString("data");
-                    String cnpj = rst.getString("cnpj");
-                    String email = rst.getString("email");
-                    Cliente c = new Cliente(nome, cpf, cnpj, email, data, matricula);
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, cliente.getNome());
+            stmt.setString(2, cliente.getCpf());
+            stmt.setString(3, cliente.getMatricula());
+            stmt.setInt(4, cliente.getIdade());
+            stmt.setString(5, cliente.getAcessoMatricula());
+            stmt.setString(6, cliente.getIntrutorCpf());
 
-                    clientes.add(c);
+            stmt.executeUpdate();
+            System.out.println("Cliente adicionado com sucesso!");
 
-                }
-            }
-            return clientes;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println("Erro ao adicionar cliente: " + e.getMessage());
         }
+    }
 
+    public void removerClientePorCPF(String cpf) {
+        Conexao conexao = new Conexao(); // Instância da classe Conexao
+
+        String sql = "DELETE FROM Cliente WHERE cpf = ?";
+
+        try {
+            Connection connection = conexao.recuperaConexao(); // Obtendo a conexão com o banco de dados
+
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, cpf);
+
+            stmt.executeUpdate();
+            System.out.println("Cliente removido com sucesso!");
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao remover cliente: " + e.getMessage());
+        }
     }
 }
